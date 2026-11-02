@@ -5,8 +5,9 @@ on:  # 触发条件
     branches:
       - main  # 仅在 main 分支推送代码时触发
     paths:
-      - 'docs/**'    # 仅当 docs 目录下文件变化时触发
-      - 'mkdocs.yml' # 仅当 MkDocs 配置文件变化时触发
+      - 'docs/**'                        # 仅当 docs 目录下文件变化时触发
+      - 'mkdocs.yml'                     # 仅当 MkDocs 配置文件变化时触发
+      - '.github/workflows/deploy.yml'   # 工作流自身变化时也触发
   workflow_dispatch:  # 支持在 Actions 页面手动触发
 
 # 允许工作流向仓库推送 gh-pages 分支
@@ -20,9 +21,9 @@ jobs:  # 工作流任务
       - name: 检出代码  # 步骤1：拉取GitHub仓库代码
         uses: actions/checkout@v4
       - name: 设置Python环境  # 步骤2：配置Python（MkDocs依赖Python）
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.9'  # 指定Python版本
+          python-version: '3.12'  # 指定Python版本（3.9 已不支持当前 ubuntu-latest 镜像）
       - name: 安装MkDocs及主题  # 步骤3：安装依赖工具
         run: |
           pip install mkdocs-material  # 安装MkDocs和Material主题
